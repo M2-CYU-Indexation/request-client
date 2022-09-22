@@ -22,5 +22,7 @@ public interface ImageDao {
 
     List<ImageResponse> findTexturedImages();
 
+    List<ImageResponse> findImagesWithCenteredInterest();
+
     byte[] downloadImageData(String imageName);
 }

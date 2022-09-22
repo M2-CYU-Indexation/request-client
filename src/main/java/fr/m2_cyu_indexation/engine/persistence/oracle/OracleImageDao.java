@@ -43,6 +43,11 @@ public class OracleImageDao implements ImageDao {
     }
 
     @Override
+    public List<ImageResponse> findImagesWithCenteredInterest() {
+        return null;
+    }
+
+    @Override
     public byte[] downloadImageData(String imageName) {
         return new byte[0];
     }
