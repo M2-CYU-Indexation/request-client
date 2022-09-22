@@ -4,7 +4,6 @@ import fr.m2_cyu_indexation.ui.GuiPreferences;
 import fr.m2_cyu_indexation.ui.MainWindow;
 import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
 import fr.m2_cyu_indexation.ui.sub_panels.menu.MenuPanel;
-import fr.m2_cyu_indexation.ui.sub_panels.request.RequestPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +17,11 @@ public class ReturnButtonPanel extends AbstractSubPanel {
 
     public static final Font BUTTON_FONT = GuiPreferences.BASE_FONT.deriveFont((float) (GuiPreferences.WIDTH / 80.0));
 
-    public ReturnButtonPanel(MainWindow context) {
+    private final ResultPanel resultPanel;
+
+    public ReturnButtonPanel(MainWindow context, ResultPanel resultPanel) {
         super(context);
+        this.resultPanel = resultPanel;
         setLayout(new BorderLayout());
         add(createMenuButton(), BorderLayout.CENTER);
     }
@@ -29,6 +31,7 @@ public class ReturnButtonPanel extends AbstractSubPanel {
         button.setFont(BUTTON_FONT);
         button.setPreferredSize(DIMENSIONS);
         button.addActionListener(event -> {
+            resultPanel.onDestroy();
             context.switchPanel(new MenuPanel(context));
         });
         return button;

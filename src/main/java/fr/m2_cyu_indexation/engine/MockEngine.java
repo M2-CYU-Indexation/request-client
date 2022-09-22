@@ -20,7 +20,11 @@ public class MockEngine implements Engine {
 
     @Override
     public List<ImageResponse> getResponses() {
-        return List.of();
+        return List.of(
+                new ImageResponse("Salut", 111111, 12345),
+                new ImageResponse("Salut2", 111111, 34323),
+                new ImageResponse("Salut3", 111111, 23)
+        );
     }
 
     @Override

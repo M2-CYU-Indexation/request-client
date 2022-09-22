@@ -5,6 +5,7 @@ import fr.m2_cyu_indexation.engine.business.request.most_color.RecessiveColorTyp
 import fr.m2_cyu_indexation.engine.business.response.ImageResponse;
 import fr.m2_cyu_indexation.engine.dao.ImageDao;
 
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -188,6 +189,28 @@ public class OracleImageDao implements ImageDao {
 
     @Override
     public byte[] downloadImageData(String imageName) {
-        return new byte[0];
+        String query = "select i.image.source.localdata from imagetable i where imagename = +'" + imageName + "'";
+
+        try (
+                PreparedStatement statement = connectionHandler.createPreparedStatement(query);
+                ResultSet resultSet = statement.executeQuery();
+        ) {
+            if(!resultSet.next()) {
+                System.err.println("No glob file found for image " + imageName);
+                return new byte[0];
+            }
+
+            Blob blob = resultSet.getBlob(1);
+            long length = blob.length();
+            byte[] bytes = blob.getBytes(1l, (int) length);
+            blob.free();
+
+            return bytes;
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new byte[0];
+        }
+
     }
 }

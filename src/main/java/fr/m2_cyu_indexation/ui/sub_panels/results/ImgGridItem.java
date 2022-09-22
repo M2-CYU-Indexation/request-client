@@ -5,9 +5,13 @@ import fr.m2_cyu_indexation.ui.GuiPreferences;
 import fr.m2_cyu_indexation.ui.MainWindow;
 import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Aldric Vitali Silvestre
@@ -34,13 +38,23 @@ public class ImgGridItem extends AbstractSubPanel {
 
     private void init() {
         setLayout(new BorderLayout());
-        image = new BufferedImage(IMAGE_DIMENSIONS.width, IMAGE_DIMENSIONS.height, BufferedImage.TYPE_3BYTE_BGR);
-        Color color = randomColor();
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                image.setRGB(x, y, color.getRGB());
+        if (response.getData().length != 0) {
+            InputStream is = new ByteArrayInputStream(response.getData());
+            try {
+                image = ImageIO.read(is);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            image = new BufferedImage(IMAGE_DIMENSIONS.width, IMAGE_DIMENSIONS.height, BufferedImage.TYPE_3BYTE_BGR);
+            Color color = randomColor();
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    image.setRGB(x, y, color.getRGB());
+                }
             }
         }
+
         imageIcon = new ImageIcon(image);
         imageLabel = new JLabel(imageIcon);
         imageLabel.setPreferredSize(IMAGE_DIMENSIONS);
