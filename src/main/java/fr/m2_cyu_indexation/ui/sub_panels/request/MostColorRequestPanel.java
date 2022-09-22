@@ -3,6 +3,7 @@ package fr.m2_cyu_indexation.ui.sub_panels.request;
 import fr.m2_cyu_indexation.engine.business.request.most_color.DominantColorType;
 import fr.m2_cyu_indexation.engine.business.request.most_color.RecessiveColorType;
 import fr.m2_cyu_indexation.ui.MainWindow;
+import fr.m2_cyu_indexation.ui.sub_panels.results.ResultPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,6 +91,8 @@ public class MostColorRequestPanel extends AbstractRequestFormPanel {
         System.out.println("Submit most color request");
         String dominantColor = dominantColorButtonGroup.getSelection().getActionCommand();
         String recessiveColor = recessiveColorButtonGroup.getSelection().getActionCommand();
+        // TODO pass request to the engine
+        context.switchPanel(new ResultPanel(context));
         System.out.println(dominantColor + " " + recessiveColor);
     }
 }
