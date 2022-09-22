@@ -2,11 +2,15 @@ package fr.m2_cyu_indexation.ui;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import fr.m2_cyu_indexation.engine.Engine;
+import fr.m2_cyu_indexation.engine.MockEngine;
+import fr.m2_cyu_indexation.engine.business.request.Request;
+import fr.m2_cyu_indexation.engine.business.response.ImageResponse;
 import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
 import fr.m2_cyu_indexation.ui.sub_panels.menu.MenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * @author Aldric Vitali Silvestre
@@ -44,8 +48,20 @@ public class MainWindow extends JFrame {
         return engine;
     }
 
+    public void submitRequest(Request request) {
+        engine.submitRequest(request);
+    }
+
+    public List<ImageResponse> getImageResponse() {
+        return engine.getResponses();
+    }
+
+    public byte[] downloadImage(String imageName) {
+        return engine.downloadImageData(imageName);
+    }
+
     public static void main(String[] args) {
         FlatLightLaf.setup();
-//        SwingUtilities.invokeLater(() -> new MainWindow(engine, engine1));
+        SwingUtilities.invokeLater(() -> new MainWindow(new MockEngine()));
     }
 }
