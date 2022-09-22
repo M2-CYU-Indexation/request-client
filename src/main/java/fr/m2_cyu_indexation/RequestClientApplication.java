@@ -10,6 +10,9 @@ import fr.m2_cyu_indexation.engine.persistence.oracle.OracleImageDao;
 import fr.m2_cyu_indexation.ui.MainWindow;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Aldric Vitali Silvestre
@@ -19,6 +22,7 @@ public class RequestClientApplication {
     public static void main(String[] args) {
 
         Config config = new Config();
+        CountDownLatch latch = new CountDownLatch(1);
         // Dependency injection part
         try (OracleConnectionHandler connectionHandler = OracleConnectionHandler.fromConfig(config.getOracleConfig())){
             ImageDao dao = new OracleImageDao(connectionHandler);
@@ -28,7 +32,19 @@ public class RequestClientApplication {
             // This provides a more modern look and feel to the UI
             FlatLightLaf.setup();
 
-            SwingUtilities.invokeLater(() -> new MainWindow(engine));
+            SwingUtilities.invokeLater(() -> {
+                MainWindow mainWindow = new MainWindow(engine);
+                mainWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        latch.countDown();
+                    }
+                });
+            });
+
+            latch.await();
+
+            System.out.println("SALUT");
 
         } catch (Exception e) {
             e.printStackTrace();
