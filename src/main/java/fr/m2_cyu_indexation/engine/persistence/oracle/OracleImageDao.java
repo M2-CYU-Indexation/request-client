@@ -5,7 +5,6 @@ import fr.m2_cyu_indexation.engine.business.request.most_color.RecessiveColorTyp
 import fr.m2_cyu_indexation.engine.business.response.ImageResponse;
 import fr.m2_cyu_indexation.engine.dao.ImageDao;
 
-import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,19 +30,19 @@ public class OracleImageDao implements ImageDao {
                                                    RecessiveColorType recessiveColorType) {
         String dominantpart = "";
         String recessivepart = "";
-        switch (dominantColorType){
+        switch (dominantColorType) {
             case RED:
-                dominantpart = "redRatio > 0.5 ";
+                dominantpart = "redRatio";
                 break;
             case BLUE:
-                dominantpart = "blueRatio > 0.5 ";
+                dominantpart = "blueRatio";
                 break;
             case GREEN:
-                dominantpart = "greenRatio > 0.5 ";
+                dominantpart = "greenRatio";
                 break;
         }
 
-        switch (recessiveColorType){
+        switch (recessiveColorType) {
             case RED:
                 recessivepart = " AND redRatio < 0.2 ";
                 break;
@@ -54,16 +53,21 @@ public class OracleImageDao implements ImageDao {
                 recessivepart = " AND greenRatio < 0.2 ";
                 break;
         }
-        String query = "select imageName, nbOutlinePixel, averageColor from imageTable where "+dominantpart + " " + recessivepart+";";
-        List<ImageResponse> responseList = new ArrayList<ImageResponse>();
+        String query = "select imageName, nbOutlinePixel, averageColor from imageTable where "
+                + dominantpart + " > 0.4 "
+                + recessivepart
+                + " ORDER BY " + dominantpart + " DESC";
+        List<ImageResponse> responseList = new ArrayList<>();
 
         try (
                 PreparedStatement statement = connectionHandler.createPreparedStatement(query);
                 ResultSet resultSet = statement.executeQuery();
         ) {
-            statement.execute();
-            while (resultSet.next()){
-                ImageResponse resp = new ImageResponse(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3));
+            while (resultSet.next()) {
+                ImageResponse resp = new ImageResponse(resultSet.getString(1),
+                                                       resultSet.getInt(2),
+                                                       resultSet.getInt(3)
+                );
                 responseList.add(resp);
             }
         } catch (SQLException exception) {
@@ -76,16 +80,18 @@ public class OracleImageDao implements ImageDao {
 
     @Override
     public List<ImageResponse> findGreyscaleImages() {
-        String query = "select imageName, nbOutlinePixel, averageColor from imageTable where isRGB = 0;";
-        List<ImageResponse> responseList = new ArrayList<ImageResponse>();
+        String query = "select imageName, nbOutlinePixel, averageColor from imageTable where isRGB = 0";
+        List<ImageResponse> responseList = new ArrayList<>();
 
         try (
                 PreparedStatement statement = connectionHandler.createPreparedStatement(query);
                 ResultSet resultSet = statement.executeQuery();
         ) {
-            statement.execute();
-            while (resultSet.next()){
-                ImageResponse resp = new ImageResponse(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3));
+            while (resultSet.next()) {
+                ImageResponse resp = new ImageResponse(resultSet.getString(1),
+                                                       resultSet.getInt(2),
+                                                       resultSet.getInt(3)
+                );
                 responseList.add(resp);
             }
         } catch (SQLException exception) {
@@ -100,16 +106,21 @@ public class OracleImageDao implements ImageDao {
     @Override
     public List<ImageResponse> findSimilarImages(String imageName) {
 
-        String query = "select imageName, nbOutlinePixel, averageColor from imageTable where distanceimagemetadatas(\'"+imageName+"\', imagename) < 50;";
-        List<ImageResponse> responseList = new ArrayList<ImageResponse>();
+        String query = "select imageName, nbOutlinePixel, averageColor, distanceimagemetadatas('" + imageName + "', imagename)" +
+                "from imageTable where distanceimagemetadatas('" + imageName + "', imagename) < 50" +
+                "order by distanceimagemetadatas('" + imageName + "', imagename)";
+        List<ImageResponse> responseList = new ArrayList<>();
 
         try (
                 PreparedStatement statement = connectionHandler.createPreparedStatement(query);
                 ResultSet resultSet = statement.executeQuery();
         ) {
-            statement.execute();
-            while (resultSet.next()){
-                ImageResponse resp = new ImageResponse(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3));
+
+            while (resultSet.next()) {
+                ImageResponse resp = new ImageResponse(resultSet.getString(1),
+                                                       resultSet.getInt(2),
+                                                       resultSet.getInt(3)
+                );
                 responseList.add(resp);
             }
         } catch (SQLException exception) {
@@ -123,16 +134,21 @@ public class OracleImageDao implements ImageDao {
     @Override
     public List<ImageResponse> findTexturedImages() {
 
-        String query = "select imageName, nboutlinepixel, averageColor from imageTable where nboutlinepixel > 20000;";
-        List<ImageResponse> responseList = new ArrayList<ImageResponse>();
+        String query = "select imageName, nboutlinepixel, averageColor from imageTable " +
+                "where nboutlinepixel > (width * height / 5)" +
+                "order by nboutlinepixel DESC";
+        List<ImageResponse> responseList = new ArrayList<>();
 
         try (
                 PreparedStatement statement = connectionHandler.createPreparedStatement(query);
                 ResultSet resultSet = statement.executeQuery();
         ) {
-            statement.execute();
-            while (resultSet.next()){
-                ImageResponse resp = new ImageResponse(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3));
+
+            while (resultSet.next()) {
+                ImageResponse resp = new ImageResponse(resultSet.getString(1),
+                                                       resultSet.getInt(2),
+                                                       resultSet.getInt(3)
+                );
                 responseList.add(resp);
             }
         } catch (SQLException exception) {
@@ -145,16 +161,21 @@ public class OracleImageDao implements ImageDao {
 
     @Override
     public List<ImageResponse> findImagesWithCenteredInterest() {
-        String query = "select imageName, nboutlinepixel, averageColor from imageTable where outlinesbarycenterx < width/2 + 10 AND outlinesbarycenterx > width/2 - 10 AND outlinesbarycentery < height/2 + 10 AND outlinesbarycentery > height/2 - 10 ;";
-        List<ImageResponse> responseList = new ArrayList<ImageResponse>();
+        String query = "select imageName, nboutlinepixel, averageColor from imageTable " +
+                "WHERE outlinesbarycenterx < width/2 + 10 AND outlinesbarycenterx > width/2 - 10 " +
+                "AND outlinesbarycentery < height/2 + 10 AND outlinesbarycentery > height/2 - 10 ";
+        List<ImageResponse> responseList = new ArrayList<>();
 
         try (
                 PreparedStatement statement = connectionHandler.createPreparedStatement(query);
                 ResultSet resultSet = statement.executeQuery();
         ) {
-            statement.execute();
-            while (resultSet.next()){
-                ImageResponse resp = new ImageResponse(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3));
+
+            while (resultSet.next()) {
+                ImageResponse resp = new ImageResponse(resultSet.getString(1),
+                                                       resultSet.getInt(2),
+                                                       resultSet.getInt(3)
+                );
                 responseList.add(resp);
             }
         } catch (SQLException exception) {

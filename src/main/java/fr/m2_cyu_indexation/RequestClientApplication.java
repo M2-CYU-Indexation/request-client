@@ -44,11 +44,10 @@ public class RequestClientApplication {
 
             latch.await();
 
-            System.out.println("SALUT");
-
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
+        System.exit(0);
     }
 }
