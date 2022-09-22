@@ -1,6 +1,7 @@
 package fr.m2_cyu_indexation.ui;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import fr.m2_cyu_indexation.engine.Engine;
 import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
 import fr.m2_cyu_indexation.ui.sub_panels.menu.MenuPanel;
 
@@ -12,8 +13,11 @@ import java.awt.*;
  */
 public class MainWindow extends JFrame {
 
-    public MainWindow() {
+    private final Engine engine;
+
+    public MainWindow(Engine engine) {
         super("Requests Client");
+        this.engine = engine;
         init();
         switchPanel(new MenuPanel(this));
     }
@@ -36,8 +40,12 @@ public class MainWindow extends JFrame {
         getContentPane().revalidate();
     }
 
+    public Engine getEngine() {
+        return engine;
+    }
+
     public static void main(String[] args) {
         FlatLightLaf.setup();
-        SwingUtilities.invokeLater(() -> new MainWindow());
+//        SwingUtilities.invokeLater(() -> new MainWindow(engine, engine1));
     }
 }

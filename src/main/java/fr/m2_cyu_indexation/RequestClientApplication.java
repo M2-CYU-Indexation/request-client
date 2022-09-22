@@ -2,6 +2,8 @@ package fr.m2_cyu_indexation;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import fr.m2_cyu_indexation.config.Config;
+import fr.m2_cyu_indexation.engine.Engine;
+import fr.m2_cyu_indexation.engine.RequestEngine;
 import fr.m2_cyu_indexation.engine.dao.ImageDao;
 import fr.m2_cyu_indexation.engine.persistence.oracle.OracleConnectionHandler;
 import fr.m2_cyu_indexation.engine.persistence.oracle.OracleImageDao;
@@ -21,10 +23,12 @@ public class RequestClientApplication {
         try (OracleConnectionHandler connectionHandler = OracleConnectionHandler.fromConfig(config.getOracleConfig())){
             ImageDao dao = new OracleImageDao(connectionHandler);
 
+            Engine engine = new RequestEngine(dao);
+
             // This provides a more modern look and feel to the UI
             FlatLightLaf.setup();
 
-            SwingUtilities.invokeLater(() -> new MainWindow());
+            SwingUtilities.invokeLater(() -> new MainWindow(engine));
 
         } catch (Exception e) {
             e.printStackTrace();
