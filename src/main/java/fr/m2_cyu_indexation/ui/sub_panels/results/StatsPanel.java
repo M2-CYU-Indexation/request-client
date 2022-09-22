@@ -24,8 +24,8 @@ public class StatsPanel extends AbstractSubPanel {
 
     private void init() {
         setLayout(new BorderLayout());
-        // TODO : fetch result count
-        nbResultsLabel = new JLabel("Result count : " + 122, SwingConstants.CENTER);
+        int nbResponses = context.getNbResponses();
+        nbResultsLabel = new JLabel("Result count : " + nbResponses, SwingConstants.CENTER);
         nbResultsLabel.setFont(FONT);
         nbResultsLabel.setPreferredSize(TOP_DIMENSIONS);
         add(nbResultsLabel, BorderLayout.CENTER);

@@ -25,6 +25,11 @@ public class MockEngine implements Engine {
 
     @Override
     public byte[] downloadImageData(String imageName) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return new byte[0];
     }
 }

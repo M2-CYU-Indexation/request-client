@@ -47,13 +47,14 @@ public class MainWindow extends JFrame {
     public Engine getEngine() {
         return engine;
     }
-
     public void submitRequest(Request request) {
         engine.submitRequest(request);
     }
-
     public List<ImageResponse> getImageResponse() {
         return engine.getResponses();
+    }
+    public int getNbResponses() {
+        return engine.getResponses().size();
     }
 
     public byte[] downloadImage(String imageName) {

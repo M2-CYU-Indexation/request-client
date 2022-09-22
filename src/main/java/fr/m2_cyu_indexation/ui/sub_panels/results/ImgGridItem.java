@@ -1,5 +1,6 @@
 package fr.m2_cyu_indexation.ui.sub_panels.results;
 
+import fr.m2_cyu_indexation.engine.business.response.ImageResponse;
 import fr.m2_cyu_indexation.ui.GuiPreferences;
 import fr.m2_cyu_indexation.ui.MainWindow;
 import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
@@ -23,12 +24,15 @@ public class ImgGridItem extends AbstractSubPanel {
     private ImageIcon imageIcon;
     private BufferedImage image;
 
-    public ImgGridItem(MainWindow context, String name) {
+    private final ImageResponse response;
+
+    public ImgGridItem(MainWindow context, ImageResponse response) {
         super(context);
-        init(name);
+        this.response = response;
+        init();
     }
 
-    private void init(String name) {
+    private void init() {
         setLayout(new BorderLayout());
         image = new BufferedImage(IMAGE_DIMENSIONS.width, IMAGE_DIMENSIONS.height, BufferedImage.TYPE_3BYTE_BGR);
         Color color = randomColor();
@@ -42,7 +46,7 @@ public class ImgGridItem extends AbstractSubPanel {
         imageLabel.setPreferredSize(IMAGE_DIMENSIONS);
         add(imageLabel, BorderLayout.CENTER);
 
-        nameLabel = new JLabel(name, SwingConstants.CENTER);
+        nameLabel = new JLabel(response.getImageName(), SwingConstants.CENTER);
         nameLabel.setFont(NAME_FONT);
         nameLabel.setPreferredSize(NAME_DIMENSIONS);
         add(nameLabel, BorderLayout.SOUTH);
