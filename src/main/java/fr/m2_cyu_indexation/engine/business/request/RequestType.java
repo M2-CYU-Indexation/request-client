@@ -6,6 +6,8 @@ package fr.m2_cyu_indexation.engine.business.request;
 public enum RequestType {
     MOST_COLOR,
     GREYSCALE,
-    SIMILARITY, TEXTURED;
+    SIMILARITY,
+    TEXTURED,
+    CENTERED_INTEREST;
 
 }

@@ -1,8 +1,11 @@
-package fr.m2_cyu_indexation.ui.sub_panels.request;
+package fr.m2_cyu_indexation.ui.sub_panels.request.impls;
 
 import fr.m2_cyu_indexation.engine.business.request.most_color.DominantColorType;
+import fr.m2_cyu_indexation.engine.business.request.most_color.MostColorRequest;
 import fr.m2_cyu_indexation.engine.business.request.most_color.RecessiveColorType;
 import fr.m2_cyu_indexation.ui.MainWindow;
+import fr.m2_cyu_indexation.ui.sub_panels.request.AbstractRequestFormPanel;
+import fr.m2_cyu_indexation.ui.sub_panels.request.RequestPanel;
 import fr.m2_cyu_indexation.ui.sub_panels.results.ResultPanel;
 
 import javax.swing.*;
@@ -20,10 +23,10 @@ public class MostColorRequestPanel extends AbstractRequestFormPanel {
 
     public MostColorRequestPanel(MainWindow context) {
         super(context);
-        init();
     }
 
-    private void init() {
+    @Override
+    public void initLayout() {
         setLayout(new GridLayout(1, 0));
         JPanel leftPane = createLeftPane();
         JPanel rightPane = createRightPane();
@@ -89,10 +92,13 @@ public class MostColorRequestPanel extends AbstractRequestFormPanel {
     @Override
     public void submitForm() {
         System.out.println("Submit most color request");
+
         String dominantColor = dominantColorButtonGroup.getSelection().getActionCommand();
         String recessiveColor = recessiveColorButtonGroup.getSelection().getActionCommand();
-        // TODO pass request to the engine
-        context.switchPanel(new ResultPanel(context));
-        System.out.println(dominantColor + " " + recessiveColor);
+
+        DominantColorType dominantColorType = DominantColorType.valueOf(dominantColor);
+        RecessiveColorType recessiveColorType = RecessiveColorType.valueOf(recessiveColor);
+
+        submitAndSwitch(new MostColorRequest(dominantColorType, recessiveColorType));
     }
 }

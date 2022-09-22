@@ -4,7 +4,7 @@ import fr.m2_cyu_indexation.ui.GuiPreferences;
 import fr.m2_cyu_indexation.ui.MainWindow;
 import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
 import fr.m2_cyu_indexation.ui.sub_panels.request.RequestPanel;
-import fr.m2_cyu_indexation.ui.sub_panels.request.MostColorRequestPanel;
+import fr.m2_cyu_indexation.ui.sub_panels.request.impls.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,12 +23,18 @@ public class RequestButtonsPanel extends AbstractSubPanel {
     }
 
     private void init() {
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        setAlignmentX(Component.CENTER_ALIGNMENT);
+        setLayout(new GridLayout(0, 1));
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        add(createRequestButton("Request color dominance", this::createMostColorRequestPanel));
+        add(createRequestButton("Find images with color dominance", this::createMostColorRequestPanel));
         add(createVerticalSpacing());
-
+        add(createRequestButton("Find greyscale images", this::createGreyscaleRequestPanel));
+        add(createVerticalSpacing());
+        add(createRequestButton("Find similar images", this::createSimilarityRequestPanel));
+        add(createVerticalSpacing());
+        add(createRequestButton("Find textured images", this::createTexturedRequestPanel));
+        add(createVerticalSpacing());
+        add(createRequestButton("Find images with point of interest at the center", this::createCenteredInterestRequestPanel));
     }
 
     private Component createVerticalSpacing() {
@@ -49,6 +55,38 @@ public class RequestButtonsPanel extends AbstractSubPanel {
                 context,
                 "Most color request",
                 new MostColorRequestPanel(context)
+        );
+    }
+
+    private RequestPanel createGreyscaleRequestPanel() {
+        return new RequestPanel(
+                context,
+                "Greyscale images",
+                new GreyscaleRequestPanel(context)
+        );
+    }
+
+    private RequestPanel createSimilarityRequestPanel() {
+        return new RequestPanel(
+                context,
+                "Similar images",
+                new SimilarityRequestPanel(context)
+        );
+    }
+
+    private RequestPanel createTexturedRequestPanel() {
+        return new RequestPanel(
+                context,
+                "Textured images",
+                new TextureRequestPanel(context)
+        );
+    }
+
+    private RequestPanel createCenteredInterestRequestPanel() {
+        return new RequestPanel(
+                context,
+                "Point of interest at the center",
+                new CenteredInterestRequestPanel(context)
         );
     }
 }

@@ -26,6 +26,7 @@ public class RequestPanel extends AbstractSubPanel {
         titlePanel.setPreferredSize(TITLE_DIMENSIONS);
 
         this.formPanel = formPanel;
+        formPanel.initLayout();
         formPanel.setPreferredSize(CENTER_DIMENSIONS);
 
         ChoiceButtonsPanel choiceButtonsPanel = new ChoiceButtonsPanel(context, this);
