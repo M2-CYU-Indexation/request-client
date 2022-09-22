@@ -12,10 +12,12 @@ import java.awt.*;
  */
 public class ResultPanel extends AbstractSubPanel {
 
+    public static final Dimension TOP_DIMENSIONS = new Dimension(GuiPreferences.WIDTH, GuiPreferences.HEIGHT / 6);
+
     public static final Dimension CENTER_DIMENSIONS = new Dimension(GuiPreferences.WIDTH,
-                                                                    4 * GuiPreferences.HEIGHT / 5
+                                                                    4 * GuiPreferences.HEIGHT / 6
     );
-    public static final Dimension BOTTOM_DIMENSIONS = new Dimension(GuiPreferences.WIDTH, GuiPreferences.HEIGHT / 5);
+    public static final Dimension BOTTOM_DIMENSIONS = new Dimension(GuiPreferences.WIDTH, GuiPreferences.HEIGHT / 6);
 
     public ResultPanel(MainWindow context) {
         super(context);
@@ -25,9 +27,11 @@ public class ResultPanel extends AbstractSubPanel {
     private void init() {
         setLayout(new BorderLayout());
 
+        StatsPanel statsPanel = new StatsPanel(context);
+        statsPanel.setPreferredSize(TOP_DIMENSIONS);
+        add(statsPanel, BorderLayout.NORTH);
 
         ImageGridPanel imageGridPanel = new ImageGridPanel(context);
-
         JScrollPane scrollPane = new JScrollPane(imageGridPanel,
                                                  JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                                  JScrollPane.HORIZONTAL_SCROLLBAR_NEVER

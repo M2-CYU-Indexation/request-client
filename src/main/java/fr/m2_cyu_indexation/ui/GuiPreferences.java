@@ -9,7 +9,7 @@ public class GuiPreferences {
     public static final int RATIO_WIDTH = 16;
     public static final int RATIO_HEIGHT = 9;
 
-    public static final int HEIGHT = 960;
+    public static final int HEIGHT = 1060;
 
     public static final int WIDTH = HEIGHT * RATIO_WIDTH / RATIO_HEIGHT;
 

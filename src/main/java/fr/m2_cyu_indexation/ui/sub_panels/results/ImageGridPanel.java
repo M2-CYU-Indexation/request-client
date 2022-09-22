@@ -15,7 +15,7 @@ public class ImageGridPanel extends AbstractSubPanel {
 
     public static final Dimension CENTER_DIMENSIONS = ResultPanel.CENTER_DIMENSIONS;
     public static final Dimension ITEM_DIMENSIONS = new Dimension(CENTER_DIMENSIONS.width / 3 - CENTER_DIMENSIONS.width / 20,
-                                                                  CENTER_DIMENSIONS.height / 3
+                                                                  CENTER_DIMENSIONS.height / 2
     );
 
     public ImageGridPanel(MainWindow context) {
@@ -26,16 +26,9 @@ public class ImageGridPanel extends AbstractSubPanel {
     private void init() {
         setLayout(new GridLayout(0, 3, CENTER_DIMENSIONS.width / 20, CENTER_DIMENSIONS.height / 10));
         for (int i = 0; i < 30; i++) {
-            JPanel panel = new JPanel();
-            panel.setBackground(randomColor());
-            panel.setPreferredSize(ITEM_DIMENSIONS);
-            add(panel);
+            ImgGridItem imgGridItem = new ImgGridItem(context, "" + i + ".jpg");
+            imgGridItem.setPreferredSize(ITEM_DIMENSIONS);
+            add(imgGridItem);
         }
-    }
-
-    private Color randomColor() {
-        float hue = (float) Math.random();
-        int rgb = Color.HSBtoRGB(hue, 0.5f, 0.5f);
-        return new Color(rgb);
     }
 }
