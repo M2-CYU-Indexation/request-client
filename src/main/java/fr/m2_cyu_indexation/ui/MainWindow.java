@@ -63,6 +63,6 @@ public class MainWindow extends JFrame {
 
     public static void main(String[] args) {
         FlatLightLaf.setup();
-        SwingUtilities.invokeLater(() -> new MainWindow(new MockEngine()));
+        new MainWindow(new MockEngine());
     }
 }

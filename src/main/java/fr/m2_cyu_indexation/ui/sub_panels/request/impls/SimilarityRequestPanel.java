@@ -4,6 +4,7 @@ import fr.m2_cyu_indexation.engine.business.request.similarity.SimilarityRequest
 import fr.m2_cyu_indexation.ui.GuiPreferences;
 import fr.m2_cyu_indexation.ui.MainWindow;
 import fr.m2_cyu_indexation.ui.sub_panels.request.AbstractRequestFormPanel;
+import fr.m2_cyu_indexation.ui.sub_panels.request.RequestPanel;
 import fr.m2_cyu_indexation.ui.sub_panels.results.ResultPanel;
 
 import javax.swing.*;
@@ -24,13 +25,24 @@ public class SimilarityRequestPanel extends AbstractRequestFormPanel {
 
     @Override
     public void initLayout() {
-        setLayout(new GridLayout(1, 0));
-        JLabel prompt = new JLabel("Image name : ", SwingConstants.CENTER);
+        setLayout(new GridLayout(5, 2));
+        int size = RequestPanel.CENTER_DIMENSIONS.width / 10;
+        setBorder(BorderFactory.createEmptyBorder(size, size, size, size));
+
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        JLabel prompt = new JLabel("Image name : ", SwingConstants.RIGHT);
         prompt.setFont(FONT);
         add(prompt);
 
         textField = new JTextField();
         add(textField);
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
     }
 
     @Override

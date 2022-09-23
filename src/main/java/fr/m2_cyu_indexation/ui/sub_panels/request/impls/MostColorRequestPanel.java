@@ -38,9 +38,13 @@ public class MostColorRequestPanel extends AbstractRequestFormPanel {
     private JPanel createLeftPane() {
         JPanel leftPane = new JPanel();
         leftPane.setLayout(new GridLayout(1, 0));
-        leftPane.add(new JLabel("Dominant color"));
+        leftPane.add(new JLabel("Dominant color", SwingConstants.CENTER));
 
-        JPanel dominantColorChoicePanel = new JPanel(new GridLayout(0, 1));
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1));
+        centerPanel.add(new JPanel());
+        JPanel dominantColorChoicePanel = new JPanel();
+        dominantColorChoicePanel.setLayout(new BoxLayout(dominantColorChoicePanel, BoxLayout.Y_AXIS));
+        centerPanel.add(dominantColorChoicePanel);
 
         boolean select = false;
         for (DominantColorType type : DominantColorType.values()) {
@@ -58,16 +62,20 @@ public class MostColorRequestPanel extends AbstractRequestFormPanel {
             dominantColorButtonGroup.add(radioButton);
         }
 
-        leftPane.add(dominantColorChoicePanel);
+        leftPane.add(centerPanel);
         return leftPane;
     }
 
     private JPanel createRightPane() {
         JPanel rightPane = new JPanel();
         rightPane.setLayout(new GridLayout(1, 0));
-        rightPane.add(new JLabel("Recessive color"));
+        rightPane.add(new JLabel("Recessive color", SwingConstants.CENTER));
 
-        JPanel ressColorChoicePanel = new JPanel(new GridLayout(0, 1));
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1));
+        centerPanel.add(new JPanel());
+        JPanel ressColorChoicePanel = new JPanel();
+        ressColorChoicePanel.setLayout(new BoxLayout(ressColorChoicePanel, BoxLayout.Y_AXIS));
+        centerPanel.add(ressColorChoicePanel);
 
         boolean select = false;
         for (RecessiveColorType type : RecessiveColorType.values()) {
@@ -85,7 +93,7 @@ public class MostColorRequestPanel extends AbstractRequestFormPanel {
             recessiveColorButtonGroup.add(radioButton);
         }
 
-        rightPane.add(ressColorChoicePanel);
+        rightPane.add(centerPanel);
         return rightPane;
     }
 

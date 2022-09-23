@@ -22,10 +22,9 @@ public class ChoiceButtonsPanel extends AbstractSubPanel {
     public ChoiceButtonsPanel(MainWindow context, RequestPanel requestPanel) {
         super(context);
         this.requestPanel = requestPanel;
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new GridLayout(1, 0, DIMENSIONS.width / 4, DIMENSIONS.height / 4));
 
         add(createRequestButton());
-        add(Box.createHorizontalGlue());
         add(createMenuButton());
     }
 
