@@ -8,6 +8,8 @@ import fr.m2_cyu_indexation.ui.sub_panels.AbstractSubPanel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,6 +36,34 @@ public class ImgGridItem extends AbstractSubPanel {
         super(context);
         this.response = response;
         init();
+        Component parent = this;
+        nameLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JPanel panel = new JPanel(new GridLayout(0, 2));
+                panel.setPreferredSize(ITEM_DIMENSIONS);
+
+                panel.add(new JLabel("Average Color : "));
+                Color color = new Color(response.getAverageColor());
+                panel.add(new JLabel(color.getRed() + ", " + color.getGreen() + ", " + color.getBlue()));
+
+                panel.add(new JLabel("Nb outline pixels : "));
+                panel.add(new JLabel("" + response.getNbOutlinePixels()));
+
+                JOptionPane.showMessageDialog(parent, panel);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                nameLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                nameLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
     }
 
     private void init() {

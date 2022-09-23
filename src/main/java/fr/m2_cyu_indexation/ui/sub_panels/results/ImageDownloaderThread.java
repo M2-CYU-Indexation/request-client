@@ -31,6 +31,11 @@ public class ImageDownloaderThread extends Thread {
             var data = engine.downloadImageData(imageName);
             imageResponse.setData(data);
             gridPanel.updateGrid();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                break;
+            }
         }
         System.out.println("End of the downloader thread");
     }
