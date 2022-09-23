@@ -45,13 +45,13 @@ public class OracleImageDao implements ImageDao {
 
         switch (recessiveColorType) {
             case RED:
-                recessivepart = " AND redRatio < 0.2 ";
+                recessivepart = " AND redRatio < 0.25 ";
                 break;
             case BLUE:
-                recessivepart = " AND blueRatio < 0.2 ";
+                recessivepart = " AND blueRatio < 0.25 ";
                 break;
             case GREEN:
-                recessivepart = " AND greenRatio < 0.2 ";
+                recessivepart = " AND greenRatio < 0.25 ";
                 break;
         }
         String query = "select imageName, nbOutlinePixel, averageColor from imageTable where "
